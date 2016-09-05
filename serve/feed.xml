@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My Personal Blog</title>
+    <description>My Personal Blog</description>
+    <link>https://danielczetner.com/</link>
+    <atom:link href="https://danielczetner.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>2016-09-03 14:12:13 +0200</pubDate>
+    <lastBuildDate>2016-09-03 14:12:13 +0200</lastBuildDate>
+    <generator>Jekyll v</generator>
+    
+      <item>
+        <title>Welcome to Simply Grey</title>
+        <description>&lt;p&gt;SimplyGrey is a simple, easy to use theme for Jekyll that compromises of mainly grey colours. A lot of people enjoy the simplistic look of grey and also find it easier to read.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-use-simply-grey&quot;&gt;Why use Simply Grey?&lt;/h2&gt;
+&lt;p&gt;There are lots of reasons why I think you should use Simply Grey but I will list the main ones that I believe are more of benefit to you, the user.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Easy to use and setup&lt;/em&gt; - Jekyll has a huge range of documentation to get you started writing posts and the Simply Grey theme makes your blog look beautiful.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Easy configuration&lt;/em&gt; - I developed this theme in order to be as customisable as possible. If you want to add more links to the navigation bar, all you have to do is edit the _config.yaml file and the &lt;code&gt;urls&lt;/code&gt; part of it.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;You can change it&lt;/em&gt; - After being released with the MIT license (like Jekyll itself) you are free to change and basically do anything you want to this theme provided you keep the copyright notice in the files and distribute the license with it. &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;jekyll&quot;&gt;Jekyll&lt;/h2&gt;
+&lt;p&gt;Jekyll is a static site generator developed in ruby that generates websites from markdown and many other formats. The benefit of this is that you can have a highly customisable blog where you can generate posts by writing easy markdown code whilst still retaining the small memory imprint that Jekyll has. &lt;/p&gt;
+
+&lt;h3 id=&quot;code-snippets&quot;&gt;Code Snippets&lt;/h3&gt;
+&lt;p&gt;Code Snippets are one of the main reasons why I love Jekyll and I think you will too. All code snippets become highlighted with great colours when you write the code in markdown. Here is an example of highlighted Ruby code in a weather application that I have made.&lt;/p&gt;
+
+&lt;div&gt;
+  &lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;#!/usr/bin/env ruby
+
+require 'json'
+require 'net/http'
+require 'libnotify'
+
+def parsejson
+    file = &amp;quot;http://api.openweathermap.org/data/2.5/find?q=London&amp;amp;mode=json&amp;quot;
+    response = Net::HTTP.get_response(URI.parse(file))
+    weatherjson = response.body
+    actual = JSON.parse(weatherjson)
+
+    # check for errors
+    if actual.has_key? 'Error'
+        raise &amp;quot;error with the url&amp;quot;
+    end
+
+    results = []
+
+    actual[&amp;quot;list&amp;quot;].each do |listitem|
+        weather = listitem[&amp;quot;weather&amp;quot;]
+        weather.each do |weath|
+            results.push(weath[&amp;quot;description&amp;quot;])
+        end
+        main = listitem[&amp;quot;main&amp;quot;]
+        temp = main[&amp;quot;temp&amp;quot;] - 273.15
+        results.push (&amp;quot;%.2f&amp;quot; % temp)
+    end
+
+    return results
+end
+
+def notify(summary)
+    Libnotify.show(:body =&amp;gt; &amp;quot;Current temperature is: #{summary[1]} degrees celsius.\nCurrent description of conditions: #{summary[0]}&amp;quot;, :summary =&amp;gt; &amp;quot;Weather Update&amp;quot;, :timeout =&amp;gt; 10)
+end
+
+notify(parsejson())&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>2013-12-22 18:18:23 +0100</pubDate>
+        <link>https://danielczetner.com/jekyll/2013/12/22/welcome-to-simply-grey.html</link>
+        <guid isPermaLink="true">https://danielczetner.com/jekyll/2013/12/22/welcome-to-simply-grey.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+      </item>
+    
+      <item>
+        <title>Parsing JSON with Ruby</title>
+        <description>&lt;p&gt;Parsing JSON with Ruby is actually extremely easy. All you have to do is have the json gem installed (&lt;code&gt;gem install json&lt;/code&gt;) and call the &lt;code&gt;JSON.parse&lt;/code&gt; method on the JSON data to convert it to ruby hashes. If you look at this small program here, you can see how I have implemented parsing JSON in Ruby.&lt;/p&gt;
+
+&lt;div&gt;
+  &lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;#!/usr/bin/env ruby
+
+require 'json'
+require 'net/http'
+require 'libnotify'
+
+def parsejson
+    file = &amp;quot;http://api.openweathermap.org/data/2.5/find?q=London&amp;amp;mode=json&amp;quot;
+    response = Net::HTTP.get_response(URI.parse(file))
+    weatherjson = response.body
+    actual = JSON.parse(weatherjson)
+
+    # check for errors
+    if actual.has_key? 'Error'
+        raise &amp;quot;error with the url&amp;quot;
+    end
+
+    results = []
+
+    actual[&amp;quot;list&amp;quot;].each do |listitem|
+        weather = listitem[&amp;quot;weather&amp;quot;]
+        weather.each do |weath|
+            results.push(weath[&amp;quot;description&amp;quot;])
+        end
+        main = listitem[&amp;quot;main&amp;quot;]
+        temp = main[&amp;quot;temp&amp;quot;] - 273.15
+        results.push (&amp;quot;%.2f&amp;quot; % temp)
+    end
+
+    return results
+end&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>2013-12-22 18:18:23 +0100</pubDate>
+        <link>https://danielczetner.com/ruby/2013/12/22/ruby-json.html</link>
+        <guid isPermaLink="true">https://danielczetner.com/ruby/2013/12/22/ruby-json.html</guid>
+        
+        
+        <category>ruby</category>
+        
+      </item>
+    
+  </channel>
+</rss>
